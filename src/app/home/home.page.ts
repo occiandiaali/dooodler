@@ -1,7 +1,9 @@
 import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { Platform, ToastController } from '@ionic/angular';
-import { Base64ToGallery, Base64ToGalleryOptions } from '@ionic-native/base64-to-gallery/ngx';
-
+import {
+  Base64ToGallery,
+  Base64ToGalleryOptions,
+} from '@ionic-native/base64-to-gallery/ngx';
 
 @Component({
   selector: 'app-home',
@@ -15,11 +17,24 @@ export class HomePage implements AfterViewInit {
   saveY: number;
 
   selectedColor = '#9e2956';
-  colors = ['#9e2956', '#c2281d', '#de722f', '#edbf4c', '#5db37e', '#459cde', '#4250ad', '#802fa3' ];
+  colors = [
+    '#9e2956',
+    '#c2281d',
+    '#de722f',
+    '#edbf4c',
+    '#5db37e',
+    '#459cde',
+    '#4250ad',
+    '#802fa3',
+  ];
   drawing = false;
   lineWidth = 5;
 
-  constructor(private plt: Platform, private base64ToGallery: Base64ToGallery, private toastCtrl: ToastController) {}
+  constructor(
+    private plt: Platform,
+    private base64ToGallery: Base64ToGallery,
+    private toastCtrl: ToastController
+  ) {}
 
   ngAfterViewInit() {
     // Set the Canvas Element and its size
@@ -50,12 +65,25 @@ export class HomePage implements AfterViewInit {
     const ctx = this.canvasElement.getContext('2d');
 
     background.onload = () => {
-      ctx.drawImage(background, 0, 0, this.canvasElement.width, this.canvasElement.height);
+      ctx.drawImage(
+        background,
+        0,
+        0,
+        this.canvasElement.width,
+        this.canvasElement.height
+      );
     };
   } // set background
 
+  clearBackground() {
+    const ctx = this.canvasElement.getContext('2d');
+    ctx.clearRect(0, 0, this.canvasElement.width, this.canvasElement.height);
+  } // clear background
+
   moved(ev) {
-    if (!this.drawing) { return; }
+    if (!this.drawing) {
+      return;
+    }
 
     const canvasPosition = this.canvasElement.getBoundingClientRect();
     const ctx = this.canvasElement.getContext('2d');
@@ -86,17 +114,20 @@ export class HomePage implements AfterViewInit {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
     if (this.plt.is('cordova')) {
-      const options: Base64ToGalleryOptions = { prefix: 'canvas_', mediaScanner:  true };
+      const options: Base64ToGalleryOptions = {
+        prefix: 'canvas_',
+        mediaScanner: true,
+      };
 
       this.base64ToGallery.base64ToGallery(dataUrl, options).then(
-        async res => {
+        async (res) => {
           const toast = await this.toastCtrl.create({
             message: 'Image saved to camera roll.',
-            duration: 2000
+            duration: 2000,
           });
           toast.present();
         },
-        err => console.log('Error saving image to gallery ', err)
+        (err) => console.log('Error saving image to gallery ', err)
       );
     } else {
       // Fallback for Desktop
@@ -135,5 +166,4 @@ export class HomePage implements AfterViewInit {
     const blob = new Blob(byteArrays, { type: contentType });
     return blob;
   }
-
 } // class

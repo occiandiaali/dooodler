@@ -32,8 +32,30 @@
 
 <canvas #imageCanvas (mousedown)="startDrawing($event)" (touchstart)="startDrawing($event)"
     (touchmove)="moved($event)" (mousemove)="moved($event)" (mouseup)="endDrawing()" (touchend)="endDrawing()"></canvas>
+
+    <ion-fab horizontal="center" vertical="bottom" slot="fixed">
+      <ion-fab-button color="light">
+        <ion-icon name="share"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-list side="top">
+        <ion-fab-button color="dark" (click)="setBackground()">
+          <ion-icon name="image"></ion-icon>
+        </ion-fab-button>
+      </ion-fab-list>
+      <ion-fab-list side="end">
+        <ion-fab-button color="dark" (click)="clearBackground()">
+          <ion-icon name="trash-outline"></ion-icon>
+        </ion-fab-button>
+      </ion-fab-list>
+     
+      <ion-fab-list side="start">
+        <ion-fab-button color="dark" (click)="exportCanvasImage()">
+          <ion-icon name="download-outline"></ion-icon>
+        </ion-fab-button>
+      </ion-fab-list>
+    </ion-fab>
  
-  <ion-button expand="full" (click)="setBackground()">
+  <!-- <ion-button expand="full" (click)="setBackground()">
     <ion-icon slot="start" name="image"></ion-icon>
     Set Background Image
   </ion-button>
@@ -41,5 +63,5 @@
   <ion-button expand="full" (click)="exportCanvasImage()">
     <ion-icon slot="start" name="download"></ion-icon>
     Export Canvas Image
-  </ion-button>
+  </ion-button> -->
 </ion-content>
